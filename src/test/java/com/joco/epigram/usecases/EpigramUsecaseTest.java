@@ -20,6 +20,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 class EpigramUsecaseTest {
+    
 
     private EpigramUsecase subjectUnderTest;
 

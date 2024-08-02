@@ -14,7 +14,7 @@ import java.util.Random;
 @Slf4j
 public class EpigramUsecase {
     private final EpigramRepository epigramRepository;
-    private final Random randomGenerator    ;
+    private final Random randomGenerator;
 
     public EpigramUsecase(EpigramRepository repository) {
         this.epigramRepository = repository;
@@ -26,11 +26,12 @@ public class EpigramUsecase {
             throw new IllegalArgumentException("Epigram text cannot be empty");
         }
         this.epigramRepository.save(new Epigram(0, epigramText));
+        log.info("Epigram added successfully");
     }
 
     public Epigram getRandomEpigram() {
 
-        int epigramCount = (int)epigramRepository.count();
+        int epigramCount = (int) epigramRepository.count();
         if (epigramCount < 1) {
             return new NullEpigram();
         }
