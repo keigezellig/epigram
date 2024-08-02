@@ -26,7 +26,7 @@ public class EpigramUsecase {
             throw new IllegalArgumentException("Epigram text cannot be empty");
         }
         this.epigramRepository.save(new Epigram(0, epigramText));
-        log.info("Epigram added successfully");
+        log.info("Epigram {} added successfully", epigramText);
     }
 
     public Epigram getRandomEpigram() {
