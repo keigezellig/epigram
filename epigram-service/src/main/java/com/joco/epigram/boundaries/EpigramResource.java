@@ -42,6 +42,4 @@ public class EpigramResource {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, ex.getMessage());
         }
     }
-
-
 }

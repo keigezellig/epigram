@@ -1,7 +1,7 @@
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
+import logo from './assets/fountain-pen.png'
+
 import './App.css'
-import {EpigramComponent} from "./ShowEpigram.tsx";
+import {EpigramLoader} from "./EpigramLoader.tsx";
 import {QueryClient, QueryClientProvider} from "@tanstack/react-query";
 
 function App() {
@@ -13,15 +13,11 @@ function App() {
         <QueryClientProvider client={queryClient}>
             <>
                 <div>
-                    <a href="https://vitejs.dev" target="_blank">
-                        <img src={viteLogo} className="logo" alt="Vite logo"/>
-                    </a>
-                    <a href="https://react.dev" target="_blank">
-                        <img src={reactLogo} className="logo react" alt="React logo"/>
-                    </a>
+                    <img src={logo} className="logo" alt="Vite logo"/>
                 </div>
                 <h1>Epigrams</h1>
-                <EpigramComponent/>
+                <EpigramLoader/>
+
                 <p className="read-the-docs">
                     A simple webversion of the 'fortune' command
                 </p>

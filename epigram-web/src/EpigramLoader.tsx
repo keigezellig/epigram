@@ -12,24 +12,24 @@ const EpigramView = (props: EpigramViewProps) => {
     const {text, onReloadAction, onAutoReloadChanged} = props;
     return (
         <div className="card">
-            <p>{text}</p>
-            <button onClick={onReloadAction}>Get random epigram</button>
-            <input id="autoReload" type="checkbox" onClick={(e) => onAutoReloadChanged(e.currentTarget.checked)}/>
-            <label for="autoReload">Enable/Disable auto reload</label>
+            <h2>{text}</h2>
+            <p>
+                <button onClick={onReloadAction}>Get random epigram</button>
+            </p>
+            <label>Enable/Disable auto reload
+                <input id="autoReload" type="checkbox" onClick={(e) => onAutoReloadChanged(e.currentTarget.checked)}/>
+            </label>
         </div>
-
-
     )
 }
 
-export const EpigramComponent = () => {
-
+export const EpigramLoader = () => {
     const [isAutoReloadEnabled, setAutoReloadEnabled] = useState(false)
     const {data, error, isError, isPending, refetch} = useQuery({
         queryKey: ['epigram'],
         queryFn: getRandomEpigram,
         refetchOnWindowFocus: false,
-        refetchInterval: isAutoReloadEnabled ? 1000 : false,
+        refetchInterval: isAutoReloadEnabled ? 1000 : false,        //This looks funny but it's actually how this property is defined
     });
 
     let text: string = '';
@@ -42,16 +42,15 @@ export const EpigramComponent = () => {
     }
 
     return (
-
-
         <EpigramView text={text}
                      onReloadAction={() => refetch()}
                      onAutoReloadChanged={(newState) => {
                          console.log("Auto-load: " + newState)
                          setAutoReloadEnabled(newState);
                      }
-                     }></EpigramView>
+                     }>
+        </EpigramView>
     )
 }
 
-export default EpigramComponent
+export default EpigramLoader
