@@ -10,6 +10,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 @RestController
 @Slf4j
+
 public class EpigramResource {
     private final EpigramUsecase epigramUsecase;
 
@@ -17,6 +18,7 @@ public class EpigramResource {
         this.epigramUsecase = epigramUsecase;
     }
 
+    @CrossOrigin
     @RequestMapping(value = {"/epigram"}, method = RequestMethod.GET)
     public EpigramResponse getRandomEpigram() {
         Epigram epigram = epigramUsecase.getRandomEpigram();
