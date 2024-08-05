@@ -12,7 +12,7 @@ const EpigramView = (props: EpigramViewProps) => {
     const {text, onReloadAction, onAutoReloadChanged} = props;
     return (
         <div className="card">
-            <h2>{text}</h2>
+            <h3>{text}</h3>
             <p>
                 <button onClick={onReloadAction}>Get random epigram</button>
             </p>
@@ -34,7 +34,8 @@ export const EpigramLoader = () => {
 
     let text: string = '';
     if (isError) {
-        text = error.message;
+        console.log(error);
+        text = 'Error occured while loading an epigram';
     } else if (isPending) {
         text = 'loading';
     } else {

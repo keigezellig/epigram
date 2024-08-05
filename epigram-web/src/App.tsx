@@ -3,6 +3,7 @@ import logo from './assets/fountain-pen.png'
 import './App.css'
 import {EpigramLoader} from "./EpigramLoader.tsx";
 import {QueryClient, QueryClientProvider} from "@tanstack/react-query";
+import {AddEpigramComponent} from "./AddEpigram.tsx";
 
 function App() {
 
@@ -17,6 +18,8 @@ function App() {
                 </div>
                 <h1>Epigrams</h1>
                 <EpigramLoader/>
+                <AddEpigramComponent/>
+
 
                 <p className="read-the-docs">
                     A simple webversion of the 'fortune' command
