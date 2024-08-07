@@ -33,12 +33,16 @@ public class EpigramUsecase {
 
         int epigramCount = (int) epigramRepository.count();
         if (epigramCount < 1) {
+            log.error("No epigrams found");
             return new NullEpigram();
         }
 
         int randomIndex = this.randomGenerator.nextInt(epigramCount);
         Page<Epigram> epigramPage = epigramRepository.findAll(PageRequest.of(randomIndex, 1));
-        return epigramPage.getContent().getFirst();
+        Epigram epigram = epigramPage.getContent().getFirst();
+        log.info("Returning epigram {}", epigram.getText());
+
+        return epigram;
 
     }
 }
