@@ -34,6 +34,7 @@ public class EpigramResource {
 
     @RequestMapping(value = {"/epigram"}, method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.CREATED)
+    @CrossOrigin
     public void addEpigram(@RequestBody AddEpigramRequest addEpigramRequest) {
         try {
             epigramUsecase.addEpigram(addEpigramRequest.text());
