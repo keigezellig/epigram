@@ -45,7 +45,7 @@ export const EpigramLoader = () => {
         queryKey: ['epigram'],
         queryFn: getRandomEpigram,
         refetchOnWindowFocus: false,
-        refetchInterval: isAutoReloadEnabled ? 1000 : false,        //This looks funny but it's actually how this property is defined
+        refetchInterval: isAutoReloadEnabled ? 5000 : false,        //This looks funny but it's actually how this property is defined
     });
 
     let text;
