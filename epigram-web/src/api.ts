@@ -1,5 +1,5 @@
 export interface EpigramResponse {
-    text: string;
+    text?: string;
 }
 
 export interface NewEpigramRequest {
@@ -9,11 +9,16 @@ export interface NewEpigramRequest {
 const URL: string = 'http://localhost:8080/epigram';
 export const getRandomEpigram = async (): Promise<EpigramResponse> => {
     const response = await fetch(URL);
-    if (response.status === 404) {
-        throw new Error("No epigrams available");
+
+    if (response.ok) {
+        const json = await response.json();
+        return {text: json.text}
     }
-    const json = await response.json();
-    return {text: json.text}
+    if (response.status === 404) {
+        return {}
+    }
+
+    throw new Error(response.statusText);
 }
 
 export const addNewEpigram = async (epigram: NewEpigramRequest): Promise<void> => {

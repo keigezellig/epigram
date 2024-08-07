@@ -4,14 +4,12 @@ import {addNewEpigram} from "./api.ts";
 
 interface AddEpigramViewProps {
     onSave: (epigramText: string) => void
-    showSaveError: boolean
 }
 
 const AddEpigramView = (props: AddEpigramViewProps) => {
     const [input, setInput] = useState("");
-    const {onSave, showSaveError} = props;
+    const {onSave} = props;
     return (
-
         <div className="card">
             <h2>Add epigram</h2>
             <label htmlFor="epigramText"> Enter epigram text: </label>
@@ -26,12 +24,8 @@ const AddEpigramView = (props: AddEpigramViewProps) => {
             </button>
 
             {input === "" &&
-                <p><i>Please enter an epigram </i></p>
+                <div className="error-text"><p>Please enter an epigram</p></div>
             }
-            {showSaveError &&
-                <p><i>Error while saving epigram</i></p>
-            }
-
         </div>
     )
 }
@@ -41,5 +35,15 @@ export const AddEpigramComponent = () => {
         mutationFn: addNewEpigram
     });
 
-    return <AddEpigramView showSaveError={mutation.isError} onSave={(e => mutation.mutate({text: e}))}/>
+    const save = (epigramText: string) => {
+        mutation.mutate({text: epigramText});
+    }
+
+    return (
+        <>
+            <AddEpigramView onSave={save}/>
+            {mutation.isSuccess && <div className="information-text">Successfully saved epigram</div>}
+            {mutation.isError && <div className="error-text">Error while saving epigram</div>}
+        </>
+    )
 }

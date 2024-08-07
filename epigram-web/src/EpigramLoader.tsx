@@ -3,16 +3,32 @@ import {getRandomEpigram} from "./api.ts";
 import {useState} from "react";
 
 interface EpigramViewProps {
-    text: string,
+    text?: string,
+    status: string,
     onReloadAction: () => void
     onAutoReloadChanged: (newState: boolean) => void
 }
 
 const EpigramView = (props: EpigramViewProps) => {
-    const {text, onReloadAction, onAutoReloadChanged} = props;
+    const {text, status, onReloadAction, onAutoReloadChanged} = props;
+
+    const displayText = (status: string, epigramText?: string) => {
+        if (status == "pending") {
+            return <div className="information-text"><h3>Loading epigram..</h3></div>
+        }
+        if (status == "error") {
+            return <div className="error-text"><h3>Error while loading epigram</h3></div>
+        }
+
+        if (status === "success" && !epigramText) {
+            return <div className="error-text"><h3>No epigrams available. Please add some.</h3></div>
+        }
+
+        return <h3>{epigramText}</h3>;
+    }
     return (
         <div className="card">
-            <h3>{text}</h3>
+            {displayText(status, text)}
             <p>
                 <button onClick={onReloadAction}>Get random epigram</button>
             </p>
@@ -25,25 +41,23 @@ const EpigramView = (props: EpigramViewProps) => {
 
 export const EpigramLoader = () => {
     const [isAutoReloadEnabled, setAutoReloadEnabled] = useState(false)
-    const {data, error, isError, isPending, refetch} = useQuery({
+    const {data, error, status, refetch} = useQuery({
         queryKey: ['epigram'],
         queryFn: getRandomEpigram,
         refetchOnWindowFocus: false,
         refetchInterval: isAutoReloadEnabled ? 1000 : false,        //This looks funny but it's actually how this property is defined
     });
 
-    let text: string = '';
-    if (isError) {
+    let text;
+    if (status === "error") {
         console.log(error);
-        text = 'Error occured while loading an epigram';
-    } else if (isPending) {
-        text = 'loading';
-    } else {
+    } else if (status === "success") {
         text = data!.text;
     }
 
     return (
         <EpigramView text={text}
+                     status={status}
                      onReloadAction={() => refetch()}
                      onAutoReloadChanged={(newState) => {
                          console.log("Auto-load: " + newState)
