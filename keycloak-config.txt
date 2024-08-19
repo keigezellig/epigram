@@ -1,0 +1,53 @@
+Keycloak config:
+
+- Realm
+  - Add new realm <test-realm>
+
+- Client
+    - New client <epigram-app>
+        - Standard flow
+        - (Optional: Direct access grants -> username/password)
+        - Home url: <http://localhost:5173>
+        - Redirect url: <http://localhost:5173>
+        - Web origins: +
+
+  - Roles (Tab 'Roles' client)
+    - <admin>
+    - <regular>
+
+  - Client scopes
+    - Add predefined mapper 'client roles' to scope <epigram-app>-dedicated
+      - Client id: <epigram-app>
+      - Token claim name: client_roles
+      - Add to ID token
+
+- Users
+    - New user <admin>
+      - Required actions: None
+      - Email verified: off
+      - Username: <admin>
+      - Email: admin@example.com
+      - First name: Ad
+      - Last name: Ministrator
+
+    - Credentials
+      - Password: admin
+      - Temporary: NO
+
+    - Role mapping
+      - Assign role: <epigram-app><admin>
+
+    - New user <user>
+      - Required actions: None
+      - Email verified: off
+      - Username: <user>
+      - Email: user@example.com
+      - First name: L. U
+      - Last name: Ser
+
+    - Credentials
+      - Password: user
+      - Temporary: NO
+
+    - Role mapping
+      - Assign role: <epigram-app><regular>
