@@ -5,6 +5,7 @@ import com.joco.epigram.entities.NullEpigram;
 import com.joco.epigram.usecases.EpigramUsecase;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -20,6 +21,7 @@ public class EpigramResource {
 
     @CrossOrigin
     @RequestMapping(value = {"/epigram"}, method = RequestMethod.GET)
+    @PreAuthorize("hasAnyAuthority('regular','admin')")
     public EpigramResponse getRandomEpigram() {
         Epigram epigram = epigramUsecase.getRandomEpigram();
         if (epigram instanceof NullEpigram) {
@@ -34,6 +36,7 @@ public class EpigramResource {
 
     @RequestMapping(value = {"/epigram"}, method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.CREATED)
+    @PreAuthorize("hasAnyAuthority('admin')")
     @CrossOrigin
     public void addEpigram(@RequestBody AddEpigramRequest addEpigramRequest) {
         try {
