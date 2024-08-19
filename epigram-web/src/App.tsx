@@ -10,11 +10,6 @@ function App() {
 // Create a client
 
     const auth = useAuth();
-    if (auth.isAuthenticated) {
-        console.log(auth.user?.profile);
-        console.log(auth.user?.scope);
-
-    }
     return (
         <>
             <div>
