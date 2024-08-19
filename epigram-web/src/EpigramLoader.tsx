@@ -1,6 +1,7 @@
 import {useQuery} from "@tanstack/react-query";
 import {getRandomEpigram} from "./api.ts";
 import {useState} from "react";
+import {useAuth} from "react-oidc-context";
 
 interface EpigramViewProps {
     text?: string,
@@ -41,9 +42,10 @@ const EpigramView = (props: EpigramViewProps) => {
 
 export const EpigramLoader = () => {
     const [isAutoReloadEnabled, setAutoReloadEnabled] = useState(false)
+    const auth = useAuth();
     const {data, error, status, refetch} = useQuery({
         queryKey: ['epigram'],
-        queryFn: getRandomEpigram,
+        queryFn: (() => getRandomEpigram(auth.user?.access_token)),
         refetchOnWindowFocus: false,
         refetchInterval: isAutoReloadEnabled ? 5000 : false,        //This looks funny but it's actually how this property is defined
     });

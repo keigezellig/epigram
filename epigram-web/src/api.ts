@@ -6,9 +6,16 @@ export interface NewEpigramRequest {
     text: string;
 }
 
-const URL: string = 'http://localhost:8080/epigram';
-export const getRandomEpigram = async (): Promise<EpigramResponse> => {
-    const response = await fetch(URL);
+const URL: string = 'http://localhost:8100/epigram';
+export const getRandomEpigram = async (token: string | undefined): Promise<EpigramResponse> => {
+
+    //const headers = token ? {'authorization': `Bearer ${token}`} : {}
+    const requestInit: RequestInit = {};
+    const headers = new Headers();
+    headers.append('Authorization', 'Bearer ' + token);
+    requestInit.headers = headers;
+
+    const response = await fetch(URL, requestInit);
 
     if (response.ok) {
         const json = await response.json();
@@ -21,13 +28,19 @@ export const getRandomEpigram = async (): Promise<EpigramResponse> => {
     throw new Error(response.statusText);
 }
 
-export const addNewEpigram = async (epigram: NewEpigramRequest): Promise<void> => {
+export const addNewEpigram = async (epigram: NewEpigramRequest, token: string | undefined): Promise<void> => {
+
+    const headers = new Headers();
+    headers.append('Authorization', 'Bearer ' + token);
+
     const response = await fetch(URL, {
         method: 'POST',
         headers: {
             'Accept': 'application/json',
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + token,
         },
+
         body: JSON.stringify(epigram)
     });
     if (response.status !== 201) {

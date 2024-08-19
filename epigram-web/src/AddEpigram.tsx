@@ -1,6 +1,7 @@
 import {useState} from "react";
 import {useMutation} from "@tanstack/react-query";
-import {addNewEpigram} from "./api.ts";
+import {addNewEpigram, NewEpigramRequest} from "./api.ts";
+import {useAuth} from "react-oidc-context";
 
 interface AddEpigramViewProps {
     onSave: (epigramText: string) => void
@@ -31,8 +32,9 @@ const AddEpigramView = (props: AddEpigramViewProps) => {
 }
 
 export const AddEpigramComponent = () => {
+    const auth = useAuth();
     const mutation = useMutation({
-        mutationFn: addNewEpigram
+        mutationFn: (request: NewEpigramRequest) => addNewEpigram(request, auth.user?.access_token),
     });
 
     const save = (epigramText: string) => {
